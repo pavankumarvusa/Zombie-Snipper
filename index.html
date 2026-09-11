@@ -269,21 +269,21 @@
     </div>
 
     <!-- Start / Main Menu Screen Overlay -->
-    <div id="screen-start" class="absolute inset-0 bg-slate-950/90 backdrop-blur-md z-40 flex items-center justify-center p-4">
-        <div class="max-w-lg w-full bg-slate-900 border border-red-900/60 rounded-2xl p-6 sm:p-8 shadow-2xl text-center relative overflow-hidden">
-            <div class="absolute -top-10 -right-10 w-40 h-40 bg-red-600/10 rounded-full filter blur-2xl"></div>
-            <div class="text-red-500 text-5xl mb-3"><i class="fa-solid fa-crosshair"></i></div>
-            <h1 class="text-3xl sm:text-4xl font-black font-tech text-slate-100 tracking-wider">SNIPER PROTOCOL</h1>
-            <p class="text-red-400 font-tech text-xs tracking-widest mt-1 mb-6">LONG RANGE ZOMBIE PURGE</p>
+    <div id="screen-start" class="absolute inset-0 bg-slate-950/90 backdrop-blur-md z-40 flex items-center justify-center p-2 sm:p-4">
+        <div class="max-w-lg w-full max-h-full overflow-y-auto bg-slate-900 border border-red-900/60 rounded-2xl p-4 sm:p-8 shadow-2xl text-center relative">
+            <div class="absolute -top-10 -right-10 w-40 h-40 bg-red-600/10 rounded-full filter blur-2xl pointer-events-none"></div>
+            <div class="text-red-500 text-3xl sm:text-5xl mb-2 sm:mb-3"><i class="fa-solid fa-crosshair"></i></div>
+            <h1 class="text-2xl sm:text-4xl font-black font-tech text-slate-100 tracking-wider">SNIPER PROTOCOL</h1>
+            <p class="text-red-400 font-tech text-[10px] sm:text-xs tracking-widest mt-1 mb-4 sm:mb-6">LONG RANGE ZOMBIE PURGE</p>
             
-            <div class="bg-slate-950/80 border border-slate-800 rounded-xl p-4 text-left text-sm text-slate-300 space-y-2 mb-6">
-                <div class="text-xs font-tech text-amber-400 font-bold uppercase tracking-wider mb-2 border-b border-slate-800 pb-1">Tactical Briefing:</div>
-                <p><i class="fa-solid fa-bullseye text-red-400 mr-2"></i><strong>Headshots disintegrate target instantly!</strong> Zombies approach from deep in the horizon (up to 3,500m distance).</p>
-                <p><i class="fa-solid fa-magnifying-glass text-amber-400 mr-2"></i><strong>Use High Magnification (up to 12x Zoom)</strong> and steady your scope breath to hit small distant targets.</p>
+            <div class="bg-slate-950/80 border border-slate-800 rounded-xl p-3 sm:p-4 text-left text-xs sm:text-sm text-slate-300 space-y-2 mb-4 sm:mb-6">
+                <div class="text-[10px] sm:text-xs font-tech text-amber-400 font-bold uppercase tracking-wider mb-1 sm:mb-2 border-b border-slate-800 pb-1">Tactical Briefing:</div>
+                <p><i class="fa-solid fa-bullseye text-red-400 mr-2"></i><strong>Headshots disintegrate target instantly!</strong> Zombies approach from deep in the horizon.</p>
+                <p><i class="fa-solid fa-magnifying-glass text-amber-400 mr-2"></i><strong>Use High Magnification (up to 12x Zoom)</strong> and steady your scope breath.</p>
                 <p><i class="fa-solid fa-wind text-sky-400 mr-2"></i><strong>Hold Breath [Space/Right Click]</strong> to steady sway for extreme distance headshots.</p>
             </div>
 
-            <button id="btn-start-game" class="w-full py-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-tech font-black text-lg tracking-wider rounded-xl shadow-lg shadow-red-900/40 hover:shadow-red-600/50 transform active:scale-95 transition">
+            <button id="btn-start-game" class="w-full py-3 sm:py-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-tech font-black text-sm sm:text-lg tracking-wider rounded-xl shadow-lg shadow-red-900/40 hover:shadow-red-600/50 transform active:scale-95 transition">
                 INITIALIZE OPERATION
             </button>
         </div>
@@ -325,32 +325,32 @@
     </div>
 
     <!-- Game Over Screen Overlay -->
-    <div id="screen-gameover" class="hidden absolute inset-0 bg-slate-950/95 backdrop-blur-lg z-40 flex items-center justify-center p-4">
-        <div class="max-w-md w-full bg-slate-900 border border-red-900/80 rounded-2xl p-6 sm:p-8 shadow-2xl text-center">
-            <div class="text-red-600 text-6xl mb-2"><i class="fa-solid fa-skull-crossbones"></i></div>
-            <h2 class="text-3xl font-black font-tech text-red-500 tracking-wider">OUTPOST OVERRUN</h2>
-            <p class="text-xs text-slate-400 font-tech mb-6">BARRICADE INTEGRITY COMPROMISED</p>
+    <div id="screen-gameover" class="hidden absolute inset-0 bg-slate-950/95 backdrop-blur-lg z-40 flex items-center justify-center p-2 sm:p-4">
+        <div class="max-w-md w-full max-h-full overflow-y-auto bg-slate-900 border border-red-900/80 rounded-2xl p-4 sm:p-8 shadow-2xl text-center">
+            <div class="text-red-600 text-4xl sm:text-6xl mb-1 sm:mb-2"><i class="fa-solid fa-skull-crossbones"></i></div>
+            <h2 class="text-2xl sm:text-3xl font-black font-tech text-red-500 tracking-wider">OUTPOST OVERRUN</h2>
+            <p class="text-[10px] sm:text-xs text-slate-400 font-tech mb-4 sm:mb-6">BARRICADE INTEGRITY COMPROMISED</p>
 
-            <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-3 font-tech text-left mb-6">
-                <div class="flex justify-between text-sm">
+            <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 sm:p-4 space-y-2 sm:space-y-3 font-tech text-left mb-4 sm:mb-6">
+                <div class="flex justify-between text-xs sm:text-sm">
                     <span class="text-slate-400">WAVES SURVIVED:</span>
                     <span id="go-stat-wave" class="font-bold text-amber-400">0</span>
                 </div>
-                <div class="flex justify-between text-sm">
+                <div class="flex justify-between text-xs sm:text-sm">
                     <span class="text-slate-400">HEADSHOT KILLS:</span>
                     <span id="go-stat-headshots" class="font-bold text-red-400">0</span>
                 </div>
-                <div class="flex justify-between text-sm">
+                <div class="flex justify-between text-xs sm:text-sm">
                     <span class="text-slate-400">MAX HEADSHOT STREAK:</span>
                     <span id="go-stat-streak" class="font-bold text-yellow-400">0</span>
                 </div>
-                <div class="flex justify-between text-sm border-t border-slate-800 pt-2">
+                <div class="flex justify-between text-xs sm:text-sm border-t border-slate-800 pt-2">
                     <span class="text-slate-300">FINAL SCORE:</span>
-                    <span id="go-stat-score" class="font-bold text-emerald-400 text-base">000,000</span>
+                    <span id="go-stat-score" class="font-bold text-emerald-400 text-sm sm:text-base">000,000</span>
                 </div>
             </div>
 
-            <button id="btn-restart" class="w-full py-4 bg-red-600 hover:bg-red-500 text-white font-tech font-bold text-base rounded-xl shadow-lg active:scale-95 transition">
+            <button id="btn-restart" class="w-full py-3 sm:py-4 bg-red-600 hover:bg-red-500 text-white font-tech font-bold text-sm sm:text-base rounded-xl shadow-lg active:scale-95 transition">
                 REDEPLOY AGENT
             </button>
         </div>
@@ -1583,6 +1583,19 @@
 
         function startGame() {
             SFX.init();
+            
+            // Try to request full screen on mobile devices for the best experience
+            if (isTouchDevice) {
+                try {
+                    const docEl = document.documentElement;
+                    if (docEl.requestFullscreen) {
+                        docEl.requestFullscreen();
+                    } else if (docEl.webkitRequestFullscreen) {
+                        docEl.webkitRequestFullscreen();
+                    }
+                } catch(e) {}
+            }
+
             document.getElementById('screen-start').classList.add('hidden');
             
             // Request Pointer Lock to capture cursor inside game
