@@ -95,12 +95,62 @@
         .pulse-glow-emerald {
             animation: pulseGlowEmerald 1.2s infinite ease-in-out;
         }
+
+        /* Mobile Touch Controls */
+        #portrait-warning { display: none; }
+        @media screen and (orientation: portrait) and (max-width: 900px) {
+            #portrait-warning { display: flex !important; }
+        }
+        
+        .touch-btn {
+            background: rgba(15, 23, 42, 0.7);
+            border: 2px solid rgba(239, 68, 68, 0.5);
+            backdrop-filter: blur(4px);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+        .touch-btn:active {
+            background: rgba(239, 68, 68, 0.4);
+            transform: scale(0.95);
+        }
+        
+        #mobile-controls { display: none; }
+        .is-touch #mobile-controls { display: flex; }
+        .is-touch #game-container { touch-action: none; }
     </style>
 </head>
 <body class="h-screen w-screen relative flex flex-col justify-between items-center select-none bg-black">
 
     <div id="game-container" class="absolute inset-0 w-full h-full cursor-crosshair overflow-hidden">
         <canvas id="gameCanvas" class="w-full h-full block"></canvas>
+    </div>
+
+    <!-- Portrait Warning Overlay -->
+    <div id="portrait-warning" class="fixed inset-0 bg-black z-50 flex-col items-center justify-center p-6 text-center">
+        <i class="fa-solid fa-mobile-screen fa-rotate-90 text-6xl text-red-500 mb-6 animate-pulse"></i>
+        <h2 class="text-3xl font-black font-tech text-white mb-2">ROTATE DEVICE</h2>
+        <p class="text-slate-400 font-tech">Please rotate your device to landscape mode for the best sniper experience.</p>
+    </div>
+
+    <!-- Mobile Touch Controls Overlay -->
+    <div id="mobile-controls" class="pointer-events-none absolute inset-0 z-20 flex-col justify-end p-4 sm:p-6 pb-24 sm:pb-32">
+        <div class="flex justify-between items-end w-full max-w-7xl mx-auto">
+            <div></div>
+            <div class="pointer-events-auto flex flex-col gap-4 items-end">
+                <button id="touch-btn-breath" class="touch-btn w-16 h-16 mr-4 shadow-[0_0_15px_rgba(14,165,233,0.3)] border-sky-500/50 text-sky-400">
+                    <i class="fa-solid fa-wind"></i>
+                </button>
+                <button id="touch-btn-fire" class="touch-btn w-24 h-24 shadow-[0_0_25px_rgba(239,68,68,0.4)] border-red-500 text-red-400 text-4xl">
+                    <i class="fa-solid fa-crosshairs"></i>
+                </button>
+            </div>
+        </div>
     </div>
 
     <!-- Muzzle Flash Light Effect Overlay -->
@@ -165,7 +215,7 @@
             <div class="bg-slate-900/80 backdrop-blur border border-slate-700/60 p-3 rounded-xl flex items-center gap-3">
                 <div class="flex flex-col">
                     <span class="text-[10px] text-slate-400 font-tech">OPTICS MODE [N]</span>
-                    <button id="btn-mode-toggle" class="mt-1 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 active:scale-95 text-xs font-bold text-cyan-400 border border-cyan-500/30 rounded flex items-center gap-2 transition">
+                    <button id="btn-mode-toggle" class="mt-1 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 active:scale-95 text-xs font-bold text-cyan-400 border border-cyan-500/30 rounded flex items-center gap-2 transition pointer-events-auto">
                         <i class="fa-solid fa-eye"></i> <span id="ui-mode-text">STANDARD</span>
                     </button>
                 </div>
@@ -173,9 +223,9 @@
                 <div class="flex flex-col">
                     <span class="text-[10px] text-slate-400 font-tech">ZOOM [SCROLL / Z]</span>
                     <div class="flex items-center gap-1 mt-1">
-                        <button id="btn-zoom-out" class="w-7 h-7 bg-slate-800 hover:bg-slate-700 text-xs text-slate-200 rounded font-bold transition">-</button>
+                        <button id="btn-zoom-out" class="w-7 h-7 bg-slate-800 hover:bg-slate-700 text-xs text-slate-200 rounded font-bold transition pointer-events-auto">-</button>
                         <span id="ui-zoom-level" class="text-xs font-tech font-bold text-amber-400 w-10 text-center">4.0x</span>
-                        <button id="btn-zoom-in" class="w-7 h-7 bg-slate-800 hover:bg-slate-700 text-xs text-slate-200 rounded font-bold transition">+</button>
+                        <button id="btn-zoom-in" class="w-7 h-7 bg-slate-800 hover:bg-slate-700 text-xs text-slate-200 rounded font-bold transition pointer-events-auto">+</button>
                     </div>
                 </div>
             </div>
@@ -201,7 +251,7 @@
                         <span id="ui-ammo-max" class="text-sm font-bold text-slate-400">5</span>
                     </div>
                 </div>
-                <button id="btn-reload" class="px-4 py-3 bg-amber-600 hover:bg-amber-500 active:scale-95 text-white font-tech font-bold text-xs rounded-lg shadow-lg flex flex-col items-center gap-1 transition border border-amber-400/40">
+                <button id="btn-reload" class="pointer-events-auto px-4 py-3 bg-amber-600 hover:bg-amber-500 active:scale-95 text-white font-tech font-bold text-xs rounded-lg shadow-lg flex flex-col items-center gap-1 transition border border-amber-400/40">
                     <i class="fa-solid fa-rotate-right text-sm"></i>
                     <span>RELOAD [R]</span>
                 </button>
@@ -538,8 +588,14 @@
             cameraTarget.y = Math.max(-450, Math.min(450, cameraTarget.y));
         });
 
+        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        if (isTouchDevice) {
+            document.body.classList.add('is-touch');
+        }
+
         // Function to lock pointer inside game container
         function lockPointer() {
+            if (isTouchDevice) return;
             if (gameState.running && !gameState.paused) {
                 const container = document.getElementById('game-container');
                 if (document.pointerLockElement !== container) {
@@ -557,6 +613,67 @@
                 lockPointer();
             }
         });
+
+        // Touch aiming logic
+        let lastTouchX = 0;
+        let lastTouchY = 0;
+        
+        window.addEventListener('touchstart', (e) => {
+            if (e.target.closest('.touch-btn') || e.target.closest('button')) return; // Ignore buttons
+            if (e.touches.length > 0) {
+                lastTouchX = e.touches[0].clientX;
+                lastTouchY = e.touches[0].clientY;
+            }
+        }, { passive: false });
+
+        window.addEventListener('touchmove', (e) => {
+            if (e.target.closest('.touch-btn') || e.target.closest('button')) return;
+            if (!gameState.running || gameState.paused) return;
+            e.preventDefault(); // Prevent scrolling
+            
+            if (e.touches.length > 0) {
+                const touchX = e.touches[0].clientX;
+                const touchY = e.touches[0].clientY;
+                
+                const deltaX = touchX - lastTouchX;
+                const deltaY = touchY - lastTouchY;
+                
+                const sensitivity = 2.0;
+                cameraTarget.x += deltaX * sensitivity;
+                cameraTarget.y += deltaY * sensitivity;
+                
+                cameraTarget.x = Math.max(-1100, Math.min(1100, cameraTarget.x));
+                cameraTarget.y = Math.max(-450, Math.min(450, cameraTarget.y));
+                
+                lastTouchX = touchX;
+                lastTouchY = touchY;
+            }
+        }, { passive: false });
+        
+        // Touch Buttons
+        const touchBtnFire = document.getElementById('touch-btn-fire');
+        const touchBtnBreath = document.getElementById('touch-btn-breath');
+        
+        if (touchBtnFire) {
+            touchBtnFire.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                shootWeapon();
+            }, { passive: false });
+        }
+        
+        if (touchBtnBreath) {
+            touchBtnBreath.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                isHoldingBreathInput = true;
+            }, { passive: false });
+            touchBtnBreath.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                isHoldingBreathInput = false;
+            }, { passive: false });
+            touchBtnBreath.addEventListener('touchcancel', (e) => {
+                isHoldingBreathInput = false;
+            }, { passive: false });
+        }
 
         // Background cityscape skyline
         const cityBuildings = [];
