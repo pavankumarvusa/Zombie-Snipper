@@ -14,10 +14,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     
     <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            overscroll-behavior: none;
+            touch-action: none; /* Prevents pull-to-refresh and native zooming */
+        }
+        
         body {
             font-family: 'Rajdhani', sans-serif;
             user-select: none;
-            overflow: hidden;
             background-color: #050508;
             color: #e2e8f0;
         }
@@ -125,7 +134,7 @@
         .is-touch #game-container { touch-action: none; }
     </style>
 </head>
-<body class="h-screen w-screen relative flex flex-col justify-between items-center select-none bg-black">
+<body class="relative flex flex-col justify-between items-center select-none bg-black">
 
     <div id="game-container" class="absolute inset-0 w-full h-full cursor-crosshair overflow-hidden">
         <canvas id="gameCanvas" class="w-full h-full block"></canvas>
@@ -165,25 +174,25 @@
         <!-- Top HUD Bar -->
         <div class="flex justify-between items-start w-full max-w-7xl mx-auto">
             <!-- Left Info: Wave & Health -->
-            <div class="bg-slate-900/80 backdrop-blur border border-slate-700/60 p-3 sm:p-4 rounded-xl shadow-2xl flex flex-col gap-2 min-w-[200px]">
-                <div class="flex items-center justify-between gap-4">
-                    <span class="text-xs uppercase tracking-widest text-slate-400 font-tech">OP WAVE</span>
-                    <span id="ui-wave" class="text-xl sm:text-2xl font-bold font-tech text-red-500">SECTOR 1</span>
+            <div class="bg-slate-900/80 backdrop-blur border border-slate-700/60 p-2 sm:p-4 rounded-xl shadow-2xl flex flex-col gap-1 sm:gap-2 flex-shrink min-w-0">
+                <div class="flex items-center justify-between gap-2 sm:gap-4">
+                    <span class="text-[10px] sm:text-xs uppercase tracking-widest text-slate-400 font-tech">OP WAVE</span>
+                    <span id="ui-wave" class="text-lg sm:text-2xl font-bold font-tech text-red-500 whitespace-nowrap">SECTOR 1</span>
                 </div>
                 <!-- Base Health Bar -->
                 <div>
-                    <div class="flex justify-between text-xs text-slate-300 mb-1 font-semibold">
-                        <span>BARRICADE INTEGRITY</span>
-                        <span id="ui-health-text">100%</span>
+                    <div class="flex justify-between text-[10px] sm:text-xs text-slate-300 mb-1 font-semibold">
+                        <span class="truncate">BARRICADE INTEGRITY</span>
+                        <span id="ui-health-text" class="ml-2">100%</span>
                     </div>
-                    <div class="w-full h-2.5 bg-slate-950 rounded-full overflow-hidden border border-slate-800">
+                    <div class="w-full h-2 sm:h-2.5 bg-slate-950 rounded-full overflow-hidden border border-slate-800">
                         <div id="ui-health-bar" class="h-full bg-gradient-to-r from-emerald-500 to-green-400 transition-all duration-300 w-full"></div>
                     </div>
                 </div>
             </div>
 
             <!-- Center Headshot Streak & Reticle HUD Indicator -->
-            <div class="hidden md:flex flex-col items-center">
+            <div class="hidden lg:flex flex-col items-center">
                 <div class="bg-slate-900/80 backdrop-blur border border-red-900/50 px-6 py-2 rounded-full flex items-center gap-4 text-red-400 font-tech shadow-lg">
                     <i class="fa-solid fa-crosshair text-lg animate-pulse"></i>
                     <span class="text-sm font-semibold tracking-wider">HEADSHOT PROTOCOL ACTIVE</span>
@@ -196,10 +205,10 @@
             </div>
 
             <!-- Right Info: Score & Cash -->
-            <div class="bg-slate-900/80 backdrop-blur border border-slate-700/60 p-3 sm:p-4 rounded-xl shadow-2xl flex flex-col gap-1 min-w-[180px] text-right">
-                <div class="text-xs text-slate-400 font-tech">SCORE</div>
-                <div id="ui-score" class="text-xl sm:text-2xl font-bold font-tech text-emerald-400">000,000</div>
-                <div class="flex items-center justify-end gap-2 text-yellow-400 font-bold text-sm mt-1">
+            <div class="bg-slate-900/80 backdrop-blur border border-slate-700/60 p-2 sm:p-4 rounded-xl shadow-2xl flex flex-col gap-1 flex-shrink min-w-0 text-right">
+                <div class="text-[10px] sm:text-xs text-slate-400 font-tech">SCORE</div>
+                <div id="ui-score" class="text-lg sm:text-2xl font-bold font-tech text-emerald-400">000,000</div>
+                <div class="flex items-center justify-end gap-1 sm:gap-2 text-yellow-400 font-bold text-xs sm:text-sm mt-0.5 sm:mt-1">
                     <i class="fa-solid fa-coins"></i>
                     <span id="ui-cash" class="font-tech">$0</span>
                 </div>
@@ -210,50 +219,50 @@
         <div id="floating-text-layer" class="absolute inset-0 pointer-events-none"></div>
 
         <!-- Bottom Scope Control Overlay -->
-        <div class="flex justify-between items-end w-full max-w-7xl mx-auto pb-2">
+        <div class="flex justify-between items-end w-full max-w-7xl mx-auto pb-1 sm:pb-2 gap-2">
             <!-- Left Controls: Scope Optics Mode & Zoom -->
-            <div class="bg-slate-900/80 backdrop-blur border border-slate-700/60 p-3 rounded-xl flex items-center gap-3">
+            <div class="bg-slate-900/80 backdrop-blur border border-slate-700/60 p-2 sm:p-3 rounded-xl flex items-center gap-1 sm:gap-3 flex-shrink min-w-0">
                 <div class="flex flex-col">
-                    <span class="text-[10px] text-slate-400 font-tech">OPTICS MODE [N]</span>
-                    <button id="btn-mode-toggle" class="mt-1 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 active:scale-95 text-xs font-bold text-cyan-400 border border-cyan-500/30 rounded flex items-center gap-2 transition pointer-events-auto">
-                        <i class="fa-solid fa-eye"></i> <span id="ui-mode-text">STANDARD</span>
+                    <span class="text-[8px] sm:text-[10px] text-slate-400 font-tech hidden sm:inline">OPTICS [N]</span>
+                    <button id="btn-mode-toggle" class="mt-0 sm:mt-1 px-2 sm:px-3 py-1 sm:py-1.5 bg-slate-800 hover:bg-slate-700 active:scale-95 text-[10px] sm:text-xs font-bold text-cyan-400 border border-cyan-500/30 rounded flex items-center gap-1 sm:gap-2 transition pointer-events-auto">
+                        <i class="fa-solid fa-eye"></i> <span id="ui-mode-text" class="hidden sm:inline">STANDARD</span>
                     </button>
                 </div>
-                <div class="h-8 w-[1px] bg-slate-700 my-auto"></div>
+                <div class="h-6 sm:h-8 w-[1px] bg-slate-700 my-auto mx-1"></div>
                 <div class="flex flex-col">
-                    <span class="text-[10px] text-slate-400 font-tech">ZOOM [SCROLL / Z]</span>
-                    <div class="flex items-center gap-1 mt-1">
-                        <button id="btn-zoom-out" class="w-7 h-7 bg-slate-800 hover:bg-slate-700 text-xs text-slate-200 rounded font-bold transition pointer-events-auto">-</button>
-                        <span id="ui-zoom-level" class="text-xs font-tech font-bold text-amber-400 w-10 text-center">4.0x</span>
-                        <button id="btn-zoom-in" class="w-7 h-7 bg-slate-800 hover:bg-slate-700 text-xs text-slate-200 rounded font-bold transition pointer-events-auto">+</button>
+                    <span class="text-[8px] sm:text-[10px] text-slate-400 font-tech hidden sm:inline">ZOOM [Z]</span>
+                    <div class="flex items-center gap-1 mt-0 sm:mt-1">
+                        <button id="btn-zoom-out" class="w-6 h-6 sm:w-7 sm:h-7 bg-slate-800 hover:bg-slate-700 text-xs text-slate-200 rounded font-bold transition pointer-events-auto">-</button>
+                        <span id="ui-zoom-level" class="text-[10px] sm:text-xs font-tech font-bold text-amber-400 w-6 sm:w-10 text-center">4.0x</span>
+                        <button id="btn-zoom-in" class="w-6 h-6 sm:w-7 sm:h-7 bg-slate-800 hover:bg-slate-700 text-xs text-slate-200 rounded font-bold transition pointer-events-auto">+</button>
                     </div>
                 </div>
             </div>
 
             <!-- Breath Hold Bar (Center Bottom) -->
-            <div class="flex flex-col items-center w-64 max-w-xs">
-                <div class="flex justify-between w-full text-[11px] font-tech font-semibold mb-1 text-sky-300">
-                    <span><i class="fa-solid fa-wind mr-1"></i>BREATH HOLD [SPACE / R-CLICK]</span>
+            <div class="hidden md:flex flex-col items-center w-40 sm:w-64 max-w-xs shrink">
+                <div class="flex justify-between w-full text-[9px] sm:text-[11px] font-tech font-semibold mb-1 text-sky-300">
+                    <span><i class="fa-solid fa-wind mr-1"></i>BREATH HOLD</span>
                     <span id="ui-breath-val">100%</span>
                 </div>
-                <div class="w-full h-3 bg-slate-950/90 rounded-full border border-sky-500/40 overflow-hidden p-0.5">
+                <div class="w-full h-2 sm:h-3 bg-slate-950/90 rounded-full border border-sky-500/40 overflow-hidden p-0.5">
                     <div id="ui-breath-bar" class="h-full bg-sky-400 rounded-full transition-all duration-75 w-full"></div>
                 </div>
             </div>
 
             <!-- Right Controls: Ammo & Reload -->
-            <div class="bg-slate-900/80 backdrop-blur border border-slate-700/60 p-3 sm:p-4 rounded-xl flex items-center gap-4">
+            <div class="bg-slate-900/80 backdrop-blur border border-slate-700/60 p-2 sm:p-4 rounded-xl flex items-center gap-2 sm:gap-4 flex-shrink min-w-0">
                 <div class="text-right">
-                    <div class="text-[10px] text-slate-400 font-tech">AMMO CAPACITY</div>
+                    <div class="text-[8px] sm:text-[10px] text-slate-400 font-tech hidden sm:block">AMMO CAPACITY</div>
                     <div class="flex items-baseline justify-end gap-1 font-tech">
-                        <span id="ui-ammo-current" class="text-2xl sm:text-3xl font-black text-amber-400">5</span>
-                        <span class="text-slate-500 font-bold">/</span>
-                        <span id="ui-ammo-max" class="text-sm font-bold text-slate-400">5</span>
+                        <span id="ui-ammo-current" class="text-xl sm:text-3xl font-black text-amber-400">5</span>
+                        <span class="text-slate-500 font-bold hidden sm:inline">/</span>
+                        <span id="ui-ammo-max" class="text-xs sm:text-sm font-bold text-slate-400 hidden sm:inline">5</span>
                     </div>
                 </div>
-                <button id="btn-reload" class="pointer-events-auto px-4 py-3 bg-amber-600 hover:bg-amber-500 active:scale-95 text-white font-tech font-bold text-xs rounded-lg shadow-lg flex flex-col items-center gap-1 transition border border-amber-400/40">
-                    <i class="fa-solid fa-rotate-right text-sm"></i>
-                    <span>RELOAD [R]</span>
+                <button id="btn-reload" class="pointer-events-auto px-2 sm:px-4 py-2 sm:py-3 bg-amber-600 hover:bg-amber-500 active:scale-95 text-white font-tech font-bold text-[10px] sm:text-xs rounded-lg shadow-lg flex flex-col items-center gap-1 transition border border-amber-400/40">
+                    <i class="fa-solid fa-rotate-right text-xs sm:text-sm"></i>
+                    <span class="hidden sm:inline">RELOAD [R]</span>
                 </button>
             </div>
         </div>
@@ -629,6 +638,7 @@
         window.addEventListener('touchmove', (e) => {
             if (e.target.closest('.touch-btn') || e.target.closest('button')) return;
             if (!gameState.running || gameState.paused) return;
+            if (e.touches.length > 1) return; // Allow native pinch-to-zoom
             e.preventDefault(); // Prevent scrolling
             
             if (e.touches.length > 0) {
@@ -1074,10 +1084,16 @@
             }
         });
 
-        window.addEventListener('contextmenu', e => e.preventDefault());
+        window.addEventListener('contextmenu', e => {
+            // Allow Shift+RightClick or Ctrl+RightClick to open DevTools context menu
+            if (!e.shiftKey && !e.ctrlKey) {
+                e.preventDefault();
+            }
+        });
 
         // Lock scroll wheel strictly to scope zoom and prevent page scroll
         window.addEventListener('wheel', (e) => {
+            if (e.ctrlKey) return; // Allow native browser zoom (Ctrl + Scroll)
             e.preventDefault();
             if (e.deltaY < 0) {
                 zoomIn();
